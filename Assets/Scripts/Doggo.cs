@@ -7,13 +7,15 @@ public class Doggo : MonoBehaviour
 
     [Header("Leash")]
     [SerializeField] private float _leashRadius = 3f;
+    [SerializeField] private float _reboundRadiusThreshold = .5f;
     [SerializeField] private float _leashForceMultiplier = 5f;
     [SerializeField] private float _leashReboundIntensity = 50f;
     [SerializeField] private float _reboundTime = 1f;
+    [SerializeField] private float _reboundMaxSpeed = 1f;
 
     [Header("Movement")]
     [SerializeField] private float _moveForce = 1f;
-    [SerializeField] private float _maxSpeed = 1f;
+    [SerializeField] private float _defaultMaxSpeed = 1f;
     [SerializeField] private float _inputDeadZone = .1f;
     [SerializeField] private float _breakDrag = 10f;
     [SerializeField] private float _defaultDrag = 3f;
@@ -27,6 +29,8 @@ public class Doggo : MonoBehaviour
     private Vector2 _inputMove;
     private float _leashTension;
     private float _reboundTimer;
+
+    private float MaxSpeed => _reboundTimer > 0 ? _reboundMaxSpeed : _defaultMaxSpeed;
 
     void Update()
     {
@@ -48,9 +52,9 @@ public class Doggo : MonoBehaviour
 
     private void ClampSpeed()
     {
-        if (_rigidBody.velocity.magnitude > _maxSpeed)
+        if (_rigidBody.velocity.magnitude > MaxSpeed)
         {
-            _rigidBody.velocity = _rigidBody.velocity.normalized * _maxSpeed;
+            _rigidBody.velocity = _rigidBody.velocity.normalized * MaxSpeed;
         }
         if (_rigidBody.velocity.magnitude < _stopSpeedThreshold)
         {
@@ -138,18 +142,20 @@ public class Doggo : MonoBehaviour
         {
             Vector2 leashForce;
 
-            if (_previousInputMove.sqrMagnitude > 0 && _inputMove.magnitude <= _inputDeadZone)
+            if (_leashTension >= _reboundRadiusThreshold && _previousInputMove.sqrMagnitude > 0 && _inputMove.magnitude <= _inputDeadZone)
             {
-                leashForce = GameManager.LeashDirection * _leashTension *_leashReboundIntensity;
+                leashForce = GameManager.LeashDirection * _leashReboundIntensity;
 
                 _reboundTimer = _reboundTime;
+    
+                _rigidBody.AddForce(leashForce, ForceMode2D.Impulse);
             }
             else
             {
                 leashForce = GameManager.LeashDirection * _leashTension * _leashForceMultiplier;
-            }
 
-            _rigidBody.AddForce(leashForce);
+                _rigidBody.AddForce(leashForce);
+            }
         }
     }
 
