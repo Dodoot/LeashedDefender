@@ -507,6 +507,7 @@ MonoBehaviour:
   _dashIntensity: 70
   _dashTime: 0.27
   _dashMaxSpeed: 30
+  _dashChargeMaxTime: 2
   _moveForce: 60
   _defaultMaxSpeed: 5
   _inputDeadZone: 0.1

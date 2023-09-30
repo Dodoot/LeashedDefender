@@ -12,6 +12,7 @@ public class Doggo : MonoBehaviour
     [SerializeField] private float _dashIntensity = 50f;
     [SerializeField] private float _dashTime = 1f;
     [SerializeField] private float _dashMaxSpeed = 1f;
+    [SerializeField] private float _dashChargeMaxTime = 3f;
 
     [Header("Movement")]
     [SerializeField] private float _moveForce = 1f;
@@ -40,47 +41,55 @@ public class Doggo : MonoBehaviour
     void Update()
     {
         UpdateInputs();
-        UpdateTension();
 
-        UpdateDash();
+        FaceCorrectDirection();
         
         Bark();
+    }
+
+    void FixedUpdate()
+    {
+        UpdateTension();
+        UpdateDash();
+        
+        ApplyForces();
+        UpdateDrag();
+        ClampSpeed();
+
+        MoveHuman();
+    }
+
+    private void FaceCorrectDirection()
+    {
+        if(_inputMove.SqrMagnitude() > _inputDeadZone)
+        {
+            transform.localScale = new Vector3(_inputMove.x < 0 ? 1f : -1f, 1f, 1f);
+        }
     }
 
     private void UpdateDash()
     {
         if (_dashTimer > 0)
         {
-            _dashTimer -= Time.deltaTime;
+            _dashTimer -= Time.fixedDeltaTime;
         }
-        else if (_leashTension > 0)
+        else if (_inputMove.SqrMagnitude() > _inputDeadZone)
         {
-            _dashCharge += Time.deltaTime;
-            _dashCharge = Mathf.Min(_dashCharge, 3);
-
-            ScreenShakeManager.SetGlobalShake(_dashCharge / 3 / 10);
-
-            if (_previousInputMove.sqrMagnitude > 0 && _inputMove.magnitude <= _inputDeadZone)
+            if (_leashTension > 0)
             {
-                _dashTrigger = true;
+                _dashCharge += Time.fixedDeltaTime;
+                _dashCharge = Mathf.Min(_dashCharge, _dashChargeMaxTime);
+
+                ScreenShakeManager.SetGlobalShake(_dashCharge / _dashChargeMaxTime / 10);
             }
-        }
-        else
-        {
-            _dashCharge = 0;
-            ScreenShakeManager.SetGlobalShake(0);
+            else
+            {
+                _dashCharge = 0;
+                ScreenShakeManager.SetGlobalShake(0);
+            }
         }
 
         _animator.SetBool(ANIMATOR_BOOL_DASH, _dashTimer > 0);
-    }
-
-    void FixedUpdate()
-    {
-        UpdateForces();
-        UpdateDrag();
-        ClampSpeed();
-        
-        MoveHuman();
     }
 
     private void ClampSpeed()
@@ -140,6 +149,12 @@ public class Doggo : MonoBehaviour
         }
 
         _inputMove = Vector2.ClampMagnitude(_inputMove, 1f);
+
+
+        if (_previousInputMove.sqrMagnitude > 0 && _inputMove.magnitude <= _inputDeadZone && _leashTension > 0)
+        {
+            _dashTrigger = true;
+        }
     }
 
     #endregion
@@ -165,7 +180,7 @@ public class Doggo : MonoBehaviour
         _rigidBody.drag = drag;
     }
 
-    private void UpdateForces()
+    private void ApplyForces()
     {
         _rigidBody.AddForce(_inputMove * _moveForce);
 
@@ -177,8 +192,8 @@ public class Doggo : MonoBehaviour
             {
                 leashForce = GameManager.LeashDirection * _dashIntensity;
 
-                var chargeT = _dashCharge / 3;
-                _dashTimer = _dashTime * Mathf.Lerp(0.5f, 1.5f, chargeT);
+                var chargeT = _dashCharge / _dashChargeMaxTime;
+                _dashTimer = _dashTime * Mathf.Lerp(0f, 1.5f, chargeT);
 
                 _dashCharge = 0;
                 ScreenShakeManager.SetGlobalShake(0);

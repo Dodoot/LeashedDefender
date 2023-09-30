@@ -17,6 +17,8 @@ public class Human : MonoBehaviour
         if (leashTension >= 0)
         {
             _rigidBody.velocity = leashMoveForceSpeedMultiplier * leashTension * -GameManager.LeashDirection;
+
+            transform.localScale = new Vector3(GameManager.LeashDirection.x < 0 ? 1f : -1f, 1f, 1f);
         }
         else
         {
