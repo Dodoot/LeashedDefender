@@ -28,6 +28,7 @@ public class Doggo : MonoBehaviour
     [Header("Dash")]
     [SerializeField] private ChargeLevel[] _chargeLevels = null; // Needs to be ordered
     [SerializeField] private float _dashMaxSpeed = 1f;
+    [SerializeField] private GameObject _dashObject = null;
 
     [Header("Movement")]
     [SerializeField] private float _moveForce = 1f;
@@ -57,9 +58,7 @@ public class Doggo : MonoBehaviour
     void Update()
     {
         UpdateInputs();
-
         FaceCorrectDirection();
-        
         Bark();
     }
 
@@ -87,6 +86,11 @@ public class Doggo : MonoBehaviour
 
     private void FaceCorrectDirection()
     {
+        if (_dashTimer > 0 && _shouldAttack)
+        {
+            transform.localScale = new Vector3(_rigidBody.velocity.x < 0 ? 1f : -1f, 1f, 1f);
+        }
+
         if(_inputMove.SqrMagnitude() > _inputDeadZone)
         {
             transform.localScale = new Vector3(_inputMove.x < 0 ? 1f : -1f, 1f, 1f);
@@ -211,25 +215,13 @@ public class Doggo : MonoBehaviour
 
         if (_leashTension > 0)
         {
-            Vector2 leashForce;
-            
             if (_dashTrigger)
             {
-                var chargeLevel = GetChargeLevel();
-
-                leashForce = GameManager.LeashDirection * chargeLevel.Force;
-                _dashTimer = chargeLevel.Time;
-                _shouldAttack = chargeLevel.ActivateAttack;
-
-                _chargeTimer = 0;
-                ScreenShakeManager.SetGlobalShake(0);
-                _dashTrigger = false;
-
-                _rigidBody.AddForce(leashForce, ForceMode2D.Impulse);
+                LaunchDash();
             }
             else
             {
-                leashForce = GameManager.LeashDirection * _leashTension * _leashForceMultiplier;
+                var leashForce = GameManager.LeashDirection * _leashTension * _leashForceMultiplier;
 
                 _rigidBody.AddForce(leashForce);
             }
@@ -237,6 +229,26 @@ public class Doggo : MonoBehaviour
     }
 
     #endregion
+
+    private void LaunchDash()
+    {
+        var chargeLevel = GetChargeLevel();
+
+        var leashForce = GameManager.LeashDirection * chargeLevel.Force;
+        _dashTimer = chargeLevel.Time;
+        _shouldAttack = chargeLevel.ActivateAttack;
+
+        _dashObject.transform.localEulerAngles = new Vector3(0f, 0f, 
+            Vector2.Angle(GameManager.LeashDirection.x < 0 ? Vector2.left : Vector2.right, GameManager.LeashDirection)
+            * (GameManager.LeashDirection.y > 0 ? -1f : 1f));
+
+        _chargeTimer = 0;
+        ScreenShakeManager.SetGlobalShake(0);
+        ScreenShakeManager.SetTempShake(chargeLevel.ScreenShake * 2, .1f);
+        _dashTrigger = false;
+
+        _rigidBody.AddForce(leashForce, ForceMode2D.Impulse);
+    }
 
     public ChargeLevel GetChargeLevel()
     {
