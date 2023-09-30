@@ -1,7 +1,10 @@
+using System;
 using UnityEngine;
 
 public class Doggo : MonoBehaviour
 {
+    private const string ANIMATOR_TRIGGER_BARK = "Bark";
+
     [Header("Leash")]
     [SerializeField] private float _leashRadius = 3f;
     [SerializeField] private float _leashForceMultiplier = 5f;
@@ -18,6 +21,7 @@ public class Doggo : MonoBehaviour
 
     [Header("Inner References")]
     [SerializeField] private Rigidbody2D _rigidBody = null;
+    [SerializeField] private Animator _animator = null;
 
     private Vector2 _previousInputMove;
     private Vector2 _inputMove;
@@ -27,13 +31,23 @@ public class Doggo : MonoBehaviour
     void Update()
     {
         UpdateInputs();
-        UpdateForces();
+        UpdateTension();
+        
+        Bark();
     }
 
     void FixedUpdate()
     {
+        UpdateForces();
         UpdateDrag();
 
+        ClampSpeed();
+        
+        MoveHuman();
+    }
+
+    private void ClampSpeed()
+    {
         if (_rigidBody.velocity.magnitude > _maxSpeed)
         {
             _rigidBody.velocity = _rigidBody.velocity.normalized * _maxSpeed;
@@ -43,6 +57,26 @@ public class Doggo : MonoBehaviour
             _rigidBody.velocity = Vector2.zero;
         }
     }
+
+    private void UpdateTension()
+    {
+        _leashTension = (transform.position - GameManager.Human.transform.position).sqrMagnitude - _leashRadius * _leashRadius;
+    }
+
+    private void MoveHuman()
+    {
+        GameManager.Human.Move(_leashTension);
+    }
+
+    private void Bark()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            _animator.SetTrigger(ANIMATOR_TRIGGER_BARK);
+        }
+    }
+
+    #region Inputs
 
     private void UpdateInputs()
     {
@@ -67,8 +101,13 @@ public class Doggo : MonoBehaviour
         {
             _inputMove += Vector2.right;
         }
+
+        _inputMove = Vector2.ClampMagnitude(_inputMove, 1f);
     }
 
+    #endregion
+
+    #region Movement
     private void UpdateDrag()
     {
         float drag;
@@ -95,25 +134,24 @@ public class Doggo : MonoBehaviour
     {
         _rigidBody.AddForce(_inputMove * _moveForce);
 
-        _leashTension = (transform.position - GameManager.Human.transform.position).sqrMagnitude - _leashRadius * _leashRadius;
-
         if (_leashTension >= 0)
         {
-            var leashDirection = (GameManager.Human.transform.position - transform.position).normalized;
             Vector2 leashForce;
 
             if (_previousInputMove.sqrMagnitude > 0 && _inputMove.magnitude <= _inputDeadZone)
             {
-                leashForce = leashDirection * _leashReboundIntensity;
+                leashForce = GameManager.LeashDirection * _leashTension *_leashReboundIntensity;
 
                 _reboundTimer = _reboundTime;
             }
             else
             {
-                leashForce = leashDirection * _leashTension * _leashForceMultiplier;
+                leashForce = GameManager.LeashDirection * _leashTension * _leashForceMultiplier;
             }
 
             _rigidBody.AddForce(leashForce);
         }
     }
+
+    #endregion
 }

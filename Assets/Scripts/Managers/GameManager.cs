@@ -9,4 +9,5 @@ public class GameManager : Singleton<GameManager>
 
     public static Doggo Doggo => _instance._doggo;
     public static Human Human => _instance._human;
+    public static Vector2 LeashDirection => (Human.transform.position - Doggo.transform.position).normalized;
 }

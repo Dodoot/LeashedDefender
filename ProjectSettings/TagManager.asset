@@ -15,11 +15,11 @@ TagManager:
   - 
   - 
   - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - EnemyHurtBox
+  - EnemyHitBox
+  - DoggoHitBox
+  - DoggoHurtBox
+  - HumanHurtBox
   - 
   - 
   - 

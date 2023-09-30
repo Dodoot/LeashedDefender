@@ -1,18 +1,24 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Human : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [Header("Movement")]
+    [SerializeField] private float leashTensionThreshold = .5f;
+    [SerializeField] private float leashMoveForceSpeedMultiplier = .2f;
 
-    // Update is called once per frame
-    void Update()
+
+    [Header("Inner References")]
+    [SerializeField] private Rigidbody2D _rigidBody = null;
+
+    public void Move(float leashTension)
     {
-        
+        if (leashTension >= 0)
+        {
+            _rigidBody.velocity = leashMoveForceSpeedMultiplier * leashTension * -GameManager.LeashDirection;
+        }
+        else
+        {
+            _rigidBody.velocity = Vector2.zero;
+        }
     }
 }
