@@ -24,6 +24,7 @@ public class Doggo : MonoBehaviour
     [Header("Inner References")]
     [SerializeField] private Rigidbody2D _rigidBody = null;
     [SerializeField] private Animator _animator = null;
+    [SerializeField] private Transform _leashPoint = null;
 
     private Vector2 _previousInputMove;
     private Vector2 _inputMove;
@@ -33,6 +34,8 @@ public class Doggo : MonoBehaviour
     private bool _dashTrigger;
 
     private float MaxSpeed => _dashTimer > 0 ? _dashMaxSpeed : _defaultMaxSpeed;
+
+    public Transform LeashPoint => _leashPoint;
 
     void Update()
     {
@@ -55,7 +58,7 @@ public class Doggo : MonoBehaviour
             _dashCharge += Time.deltaTime;
             _dashCharge = Mathf.Min(_dashCharge, 3);
 
-            ScreenShakeManager.SetGlobalShake(_dashCharge / 3 / 2);
+            ScreenShakeManager.SetGlobalShake(_dashCharge / 3 / 10);
 
             if (_previousInputMove.sqrMagnitude > 0 && _inputMove.magnitude <= _inputDeadZone)
             {
@@ -176,8 +179,6 @@ public class Doggo : MonoBehaviour
 
                 var chargeT = _dashCharge / 3;
                 _dashTimer = _dashTime * Mathf.Lerp(0.5f, 1.5f, chargeT);
-
-                Debug.Log($"{_dashTimer}");
 
                 _dashCharge = 0;
                 ScreenShakeManager.SetGlobalShake(0);
