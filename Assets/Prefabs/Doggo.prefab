@@ -501,13 +501,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 667cb0646a1088b4b84fe4712493b76d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _fenceX: 7.2
+  _fenceY: 4.7
   _leashRadius: 3
   _leashForceMultiplier: 5
-  _dashRadiusThreshold: 4
-  _dashIntensity: 70
-  _dashTime: 0.27
+  _chargeLevels:
+  - Threshold: 0
+    ActivateAttack: 0
+    Force: 20
+    Time: 0.1
+    ScreenShake: 0.02
+    LeashColor: {r: 0, g: 0, b: 0, a: 1}
+  - Threshold: 0.3
+    ActivateAttack: 1
+    Force: 50
+    Time: 0.25
+    ScreenShake: 0.04
+    LeashColor: {r: 1, g: 1, b: 1, a: 1}
+  - Threshold: 1
+    ActivateAttack: 1
+    Force: 70
+    Time: 0.4
+    ScreenShake: 0.06
+    LeashColor: {r: 1, g: 0, b: 0, a: 1}
   _dashMaxSpeed: 30
-  _dashChargeMaxTime: 2
   _moveForce: 60
   _defaultMaxSpeed: 5
   _inputDeadZone: 0.1

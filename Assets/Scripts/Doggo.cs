@@ -1,18 +1,33 @@
+using System;
 using UnityEngine;
+
+[Serializable]
+public struct ChargeLevel
+{
+    public float Threshold;
+    public bool ActivateAttack;
+    public float Force;
+    public float Time;
+    public float ScreenShake;
+    public Color LeashColor;
+}
 
 public class Doggo : MonoBehaviour
 {
     private const string ANIMATOR_TRIGGER_BARK = "Bark";
     private const string ANIMATOR_BOOL_DASH = "Dash";
 
+    [Header("Fences")]
+    [SerializeField] private float _fenceX = 7.2f;
+    [SerializeField] private float _fenceY = 4.7f;
+
     [Header("Leash")]
     [SerializeField] private float _leashRadius = 3f;
     [SerializeField] private float _leashForceMultiplier = 5f;
-    [SerializeField] private float _dashRadiusThreshold = 4f;
-    [SerializeField] private float _dashIntensity = 50f;
-    [SerializeField] private float _dashTime = 1f;
+
+    [Header("Dash")]
+    [SerializeField] private ChargeLevel[] _chargeLevels = null; // Needs to be ordered
     [SerializeField] private float _dashMaxSpeed = 1f;
-    [SerializeField] private float _dashChargeMaxTime = 3f;
 
     [Header("Movement")]
     [SerializeField] private float _moveForce = 1f;
@@ -31,8 +46,9 @@ public class Doggo : MonoBehaviour
     private Vector2 _inputMove;
     private float _leashTension;
     private float _dashTimer;
-    private float _dashCharge;
+    private float _chargeTimer;
     private bool _dashTrigger;
+    private bool _shouldAttack;
 
     private float MaxSpeed => _dashTimer > 0 ? _dashMaxSpeed : _defaultMaxSpeed;
 
@@ -55,8 +71,18 @@ public class Doggo : MonoBehaviour
         ApplyForces();
         UpdateDrag();
         ClampSpeed();
+        ClampPosition();
 
         MoveHuman();
+    }
+
+    private void ClampPosition()
+    {
+        if (Mathf.Abs(transform.position.x) > _fenceX || Mathf.Abs(transform.position.y) > _fenceY)
+        {
+            var newPos = new Vector2(Mathf.Clamp(transform.position.x, -_fenceX, _fenceX), Mathf.Clamp(transform.position.y, -_fenceY, _fenceY));
+            transform.position = newPos;
+        }
     }
 
     private void FaceCorrectDirection()
@@ -77,19 +103,18 @@ public class Doggo : MonoBehaviour
         {
             if (_leashTension > 0)
             {
-                _dashCharge += Time.fixedDeltaTime;
-                _dashCharge = Mathf.Min(_dashCharge, _dashChargeMaxTime);
+                _chargeTimer += Time.fixedDeltaTime;
 
-                ScreenShakeManager.SetGlobalShake(_dashCharge / _dashChargeMaxTime / 10);
+                ScreenShakeManager.SetGlobalShake(GetChargeLevel().ScreenShake);
             }
             else
             {
-                _dashCharge = 0;
+                _chargeTimer = 0;
                 ScreenShakeManager.SetGlobalShake(0);
             }
         }
 
-        _animator.SetBool(ANIMATOR_BOOL_DASH, _dashTimer > 0);
+        _animator.SetBool(ANIMATOR_BOOL_DASH, _dashTimer > 0 && _shouldAttack);
     }
 
     private void ClampSpeed()
@@ -190,12 +215,13 @@ public class Doggo : MonoBehaviour
             
             if (_dashTrigger)
             {
-                leashForce = GameManager.LeashDirection * _dashIntensity;
+                var chargeLevel = GetChargeLevel();
 
-                var chargeT = _dashCharge / _dashChargeMaxTime;
-                _dashTimer = _dashTime * Mathf.Lerp(0f, 1.5f, chargeT);
+                leashForce = GameManager.LeashDirection * chargeLevel.Force;
+                _dashTimer = chargeLevel.Time;
+                _shouldAttack = chargeLevel.ActivateAttack;
 
-                _dashCharge = 0;
+                _chargeTimer = 0;
                 ScreenShakeManager.SetGlobalShake(0);
                 _dashTrigger = false;
 
@@ -211,4 +237,19 @@ public class Doggo : MonoBehaviour
     }
 
     #endregion
+
+    public ChargeLevel GetChargeLevel()
+    {
+        var result = new ChargeLevel();
+
+        foreach (var chargeLevel in _chargeLevels)
+        {
+            if (_chargeTimer >= chargeLevel.Threshold)
+            {
+                result = chargeLevel;
+            }
+        }
+
+        return result;
+    }
 }

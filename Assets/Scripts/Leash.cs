@@ -22,5 +22,9 @@ public class Leash : MonoBehaviour
         {
             _lineRenderer.SetPosition(i, _leashPoints[i].position);
         }
+
+        var color = GameManager.Doggo.GetChargeLevel().LeashColor;
+        _lineRenderer.startColor = color;
+        _lineRenderer.endColor = color;
     }
 }
