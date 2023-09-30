@@ -1,17 +1,17 @@
-using System;
 using UnityEngine;
 
 public class Doggo : MonoBehaviour
 {
     private const string ANIMATOR_TRIGGER_BARK = "Bark";
+    private const string ANIMATOR_BOOL_DASH = "Dash";
 
     [Header("Leash")]
     [SerializeField] private float _leashRadius = 3f;
-    [SerializeField] private float _reboundRadiusThreshold = .5f;
     [SerializeField] private float _leashForceMultiplier = 5f;
-    [SerializeField] private float _leashReboundIntensity = 50f;
-    [SerializeField] private float _reboundTime = 1f;
-    [SerializeField] private float _reboundMaxSpeed = 1f;
+    [SerializeField] private float _dashRadiusThreshold = 4f;
+    [SerializeField] private float _dashIntensity = 50f;
+    [SerializeField] private float _dashTime = 1f;
+    [SerializeField] private float _dashMaxSpeed = 1f;
 
     [Header("Movement")]
     [SerializeField] private float _moveForce = 1f;
@@ -28,23 +28,53 @@ public class Doggo : MonoBehaviour
     private Vector2 _previousInputMove;
     private Vector2 _inputMove;
     private float _leashTension;
-    private float _reboundTimer;
+    private float _dashTimer;
+    private float _dashCharge;
+    private bool _dashTrigger;
 
-    private float MaxSpeed => _reboundTimer > 0 ? _reboundMaxSpeed : _defaultMaxSpeed;
+    private float MaxSpeed => _dashTimer > 0 ? _dashMaxSpeed : _defaultMaxSpeed;
 
     void Update()
     {
         UpdateInputs();
         UpdateTension();
+
+        UpdateDash();
         
         Bark();
+    }
+
+    private void UpdateDash()
+    {
+        if (_dashTimer > 0)
+        {
+            _dashTimer -= Time.deltaTime;
+        }
+        else if (_leashTension > 0)
+        {
+            _dashCharge += Time.deltaTime;
+            _dashCharge = Mathf.Min(_dashCharge, 3);
+
+            ScreenShakeManager.SetGlobalShake(_dashCharge / 3 / 2);
+
+            if (_previousInputMove.sqrMagnitude > 0 && _inputMove.magnitude <= _inputDeadZone)
+            {
+                _dashTrigger = true;
+            }
+        }
+        else
+        {
+            _dashCharge = 0;
+            ScreenShakeManager.SetGlobalShake(0);
+        }
+
+        _animator.SetBool(ANIMATOR_BOOL_DASH, _dashTimer > 0);
     }
 
     void FixedUpdate()
     {
         UpdateForces();
         UpdateDrag();
-
         ClampSpeed();
         
         MoveHuman();
@@ -116,11 +146,9 @@ public class Doggo : MonoBehaviour
     {
         float drag;
 
-        if (_reboundTimer > 0)
+        if (_dashTimer > 0)
         {
             drag = 0;
-
-            _reboundTimer -= Time.deltaTime;
         }
         else if (_inputMove.magnitude <= _inputDeadZone || _leashTension > 0)
         {
@@ -138,16 +166,23 @@ public class Doggo : MonoBehaviour
     {
         _rigidBody.AddForce(_inputMove * _moveForce);
 
-        if (_leashTension >= 0)
+        if (_leashTension > 0)
         {
             Vector2 leashForce;
-
-            if (_leashTension >= _reboundRadiusThreshold && _previousInputMove.sqrMagnitude > 0 && _inputMove.magnitude <= _inputDeadZone)
+            
+            if (_dashTrigger)
             {
-                leashForce = GameManager.LeashDirection * _leashReboundIntensity;
+                leashForce = GameManager.LeashDirection * _dashIntensity;
 
-                _reboundTimer = _reboundTime;
-    
+                var chargeT = _dashCharge / 3;
+                _dashTimer = _dashTime * Mathf.Lerp(0.5f, 1.5f, chargeT);
+
+                Debug.Log($"{_dashTimer}");
+
+                _dashCharge = 0;
+                ScreenShakeManager.SetGlobalShake(0);
+                _dashTrigger = false;
+
                 _rigidBody.AddForce(leashForce, ForceMode2D.Impulse);
             }
             else
