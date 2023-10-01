@@ -17,7 +17,7 @@ public class GhostCat : Ghost
     {
         var direction = (GameManager.Human.transform.position - transform.position).normalized;
 
-        direction = Quaternion.AngleAxis(_rotationAngle, Vector3.forward) * direction;
+        direction = Quaternion.AngleAxis(_trueRotationAngle, Vector3.forward) * direction;
 
         _rigidBody.velocity = direction * _speed;
     }

@@ -1,8 +1,13 @@
+using System;
 using UnityEngine;
 
 public class Human : MonoBehaviour
 {
     private const string ANIMATOR_BOOL_PULL = "Pull";
+    private const string ANIMATOR_BOOL_HURT = "Hurt";
+
+    [SerializeField] private int _startLife = 3;
+    [SerializeField] private float _invincibilityTime = 1f;
 
     [Header("Movement")]
     [SerializeField] private float leashTensionThreshold = .5f;
@@ -13,7 +18,32 @@ public class Human : MonoBehaviour
     [SerializeField] private Animator _animator = null;
     [SerializeField] private Transform _leashPoint = null;
 
+    private int _currentLife;
+    private float _invincibilityTimer;
+
     public Transform LeashPoint => _leashPoint;
+    public int CurrentLife => _currentLife;
+
+    private void Start()
+    {
+        _currentLife = _startLife;
+        HUDManager.Refresh();
+    }
+
+    private void Update()
+    {
+        UpdateInvincibility();
+    }
+
+    private void UpdateInvincibility()
+    {
+        if (_invincibilityTimer > 0)
+        {
+            _invincibilityTimer -= Time.deltaTime;
+        }
+
+        _animator.SetBool(ANIMATOR_BOOL_HURT, _invincibilityTimer > 0);
+    }
 
     public void Move(float leashTension)
     {
@@ -29,5 +59,18 @@ public class Human : MonoBehaviour
         }
 
         _animator.SetBool(ANIMATOR_BOOL_PULL, leashTension > 0);
+    }
+
+    public void Hurt()
+    {
+        if (_invincibilityTimer <= 0)
+        {
+            FXManager.TriggerHurtFX();
+
+            _currentLife--;
+            HUDManager.Refresh();
+
+            _invincibilityTimer = _invincibilityTime;
+        }
     }
 }

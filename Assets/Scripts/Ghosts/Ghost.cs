@@ -7,21 +7,45 @@ public abstract class Ghost : MonoBehaviour
 {
     [SerializeField] protected float _speed = 1f;
     [SerializeField] protected Rigidbody2D _rigidBody = null;
+    [SerializeField] private float _barkedTime = .3f;
+    [SerializeField] protected float _barkedSpeed = 5f;
+
+    protected float _barkedTimer;
+    protected Vector2 _barkedDirection;
 
     protected virtual void Update()
     {
-        Move();
+        if (_barkedTimer > 0)
+        {
+            _barkedTimer -= Time.deltaTime;
+
+            _rigidBody.velocity = _barkedDirection * _barkedSpeed;
+        }
+        else
+        {
+            Move();
+        }
     }
 
     protected abstract void Move();
 
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        Die();
-    }
-
-    protected virtual void Die()
+    public virtual void Die()
     {
         Destroy(gameObject);
+    }
+
+    public void Barked(Vector2 direction)
+    {
+        _barkedTimer = _barkedTime;
+        _barkedDirection = direction;
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.layer == LayerMask.NameToLayer("HumanHurtbox"))
+        {
+            GameManager.Human.Hurt();
+            Destroy(gameObject);
+        }
     }
 }
