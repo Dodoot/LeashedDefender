@@ -51,6 +51,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _speed: 2
   _rigidBody: {fileID: 3996945804712402743}
+  _animator: {fileID: 1894102791856225933}
   _maxX: 8
   _maxY: 5.5
 --- !u!50 &3996945804712402743

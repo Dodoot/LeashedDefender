@@ -4,6 +4,7 @@ public class Fireball : MonoBehaviour
 {
     [SerializeField] private float _speed = 3f;
     [SerializeField] private Rigidbody2D _rigidBody = null;
+    [SerializeField] private Animator _animator = null;
 
     [SerializeField] private float _maxX = 8f;
     [SerializeField] private float _maxY = 5.5f;
@@ -34,6 +35,7 @@ public class Fireball : MonoBehaviour
                 _rigidBody.velocity = _speed * transform.up;
 
                 _bounced = true;
+                _animator.SetTrigger("Fade");
             }
         }
         else
