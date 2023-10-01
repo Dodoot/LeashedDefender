@@ -25,10 +25,19 @@ public abstract class Ghost : MonoBehaviour
         else
         {
             Move();
+            FaceCorrectDirection();
         }
     }
 
     protected abstract void Move();
+
+    protected void FaceCorrectDirection()
+    {
+        if (_rigidBody.velocity.SqrMagnitude() > 0)
+        {
+            transform.localScale = new Vector3(_rigidBody.velocity.x < 0 ? 1f : -1f, 1f, 1f);
+        }
+    }
 
     public virtual void Die()
     {

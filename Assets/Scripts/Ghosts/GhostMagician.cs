@@ -31,6 +31,7 @@ public class GhostMagician : Ghost
             if (!_isAttacking)
             {
                 Move();
+                FaceCorrectDirection();
             }
             else
             {

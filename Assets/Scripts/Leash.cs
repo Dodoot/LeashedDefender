@@ -16,11 +16,21 @@ public class Leash : MonoBehaviour
         _start.position = GameManager.Human.LeashPoint.position;
         _end.position = GameManager.Doggo.LeashPoint.position;
 
-        _lineRenderer.positionCount = _leashPoints.Length;
-
-        for (int i = 0; i < _leashPoints.Length; i++)
+        if (GameManager.Doggo.IsLeashTense)
         {
-            _lineRenderer.SetPosition(i, _leashPoints[i].position);
+            _lineRenderer.positionCount = 2;
+
+            _lineRenderer.SetPosition(0, _leashPoints[0].position);
+            _lineRenderer.SetPosition(1, _leashPoints[_leashPoints.Length - 1].position);
+        }
+        else
+        {
+            _lineRenderer.positionCount = _leashPoints.Length;
+
+            for (int i = 0; i < _leashPoints.Length; i++)
+            {
+                _lineRenderer.SetPosition(i, _leashPoints[i].position);
+            }
         }
 
         var color = GameManager.Doggo.GetChargeLevel().LeashColor;

@@ -19,6 +19,8 @@ public class Doggo : MonoBehaviour
     private const string ANIMATOR_BOOL_DASH = "Dash";
     private const string ANIMATOR_BOOL_WALK = "Walk";
 
+    [SerializeField] private float _barkCooldown = 1f;
+
     [Header("Fences")]
     [SerializeField] private float _fenceX = 7.2f;
     [SerializeField] private float _fenceY = 4.7f;
@@ -59,9 +61,13 @@ public class Doggo : MonoBehaviour
     private bool _dashTrigger;
     private bool _shouldAttack;
 
+    private float _barkTimer;
+    private bool _barkBuffer;
+
     private float MaxSpeed => _dashTimer > 0 ? _dashMaxSpeed : _defaultMaxSpeed;
 
     public Transform LeashPoint => _leashPoint;
+    public bool IsLeashTense => _leashTension > 0;
 
     void Update()
     {
@@ -138,10 +144,21 @@ public class Doggo : MonoBehaviour
 
     private void Bark()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) && _barkTimer <= .3f)
+        {
+            _barkBuffer = true;
+        }
+
+        if (_barkTimer > 0)
+        {
+            _barkTimer -= Time.deltaTime;
+        }
+        else if (_barkBuffer)
         {
             _animator.SetTrigger(ANIMATOR_TRIGGER_BARK);
             MusicAndSoundManager.PlaySound(ESoundName.Waf);
+            _barkTimer = _barkCooldown;
+            _barkBuffer = false;
         }
     }
 
