@@ -1083,6 +1083,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 667cb0646a1088b4b84fe4712493b76d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _barkCooldown: 1
   _fenceX: 7.2
   _fenceY: 4.7
   _leashRadius: 2.5
@@ -1102,7 +1103,7 @@ MonoBehaviour:
     ScreenShake: 0.04
     LeashColor: {r: 0.627451, g: 0.27450982, b: 0.3137255, a: 1}
     AudioVolume: 0.2
-  - Threshold: 1
+  - Threshold: 0.6
     ActivateAttack: 1
     Force: 70
     Time: 0.4

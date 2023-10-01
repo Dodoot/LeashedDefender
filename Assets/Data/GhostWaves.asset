@@ -14,33 +14,140 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _waves:
   - Spawns:
-    - GhostType: 2
+    - GhostType: 0
       Time: 0
-    - GhostType: 2
-      Time: 1
     - GhostType: 0
       Time: 2
     - GhostType: 0
       Time: 4
-    - GhostType: 0
-      Time: 4
-    - GhostType: 0
-      Time: 4
   - Spawns:
-    - GhostType: 1
+    - GhostType: 0
       Time: 0
     - GhostType: 0
       Time: 1
-    - GhostType: 1
+    - GhostType: 0
       Time: 2
     - GhostType: 0
       Time: 3
+    - GhostType: 0
+      Time: 4
+    - GhostType: 0
+      Time: 5
+    - GhostType: 0
+      Time: 6
+  - Spawns:
+    - GhostType: 1
+      Time: 0
+    - GhostType: 1
+      Time: 0
+    - GhostType: 1
+      Time: 4
+    - GhostType: 1
+      Time: 4
+  - Spawns:
+    - GhostType: 1
+      Time: 0
+    - GhostType: 1
+      Time: 0
+    - GhostType: 0
+      Time: 0
+    - GhostType: 0
+      Time: 2
+    - GhostType: 1
+      Time: 4
+    - GhostType: 1
+      Time: 4
+    - GhostType: 0
+      Time: 4
+    - GhostType: 0
+      Time: 6
+    - GhostType: 0
+      Time: 6
   - Spawns:
     - GhostType: 2
       Time: 0
     - GhostType: 2
       Time: 0
     - GhostType: 2
-      Time: 2
+      Time: 0
+    - GhostType: 2
+      Time: 5
+    - GhostType: 2
+      Time: 5
+    - GhostType: 2
+      Time: 5
+  - Spawns:
+    - GhostType: 2
+      Time: 0
+    - GhostType: 0
+      Time: 0
+    - GhostType: 0
+      Time: 0
     - GhostType: 2
       Time: 2
+    - GhostType: 0
+      Time: 2
+    - GhostType: 0
+      Time: 2
+    - GhostType: 2
+      Time: 3
+    - GhostType: 0
+      Time: 3
+    - GhostType: 0
+      Time: 3
+    - GhostType: 2
+      Time: 4
+    - GhostType: 0
+      Time: 4
+    - GhostType: 0
+      Time: 4
+  - Spawns:
+    - GhostType: 2
+      Time: 0
+    - GhostType: 0
+      Time: 0
+    - GhostType: 1
+      Time: 0
+    - GhostType: 2
+      Time: 2
+    - GhostType: 0
+      Time: 2
+    - GhostType: 1
+      Time: 2
+    - GhostType: 2
+      Time: 3
+    - GhostType: 0
+      Time: 3
+    - GhostType: 1
+      Time: 3
+    - GhostType: 2
+      Time: 4
+    - GhostType: 0
+      Time: 4
+    - GhostType: 1
+      Time: 4
+  - Spawns:
+    - GhostType: 1
+      Time: 0
+    - GhostType: 1
+      Time: 0
+    - GhostType: 1
+      Time: 0
+    - GhostType: 1
+      Time: 2
+    - GhostType: 1
+      Time: 2
+    - GhostType: 1
+      Time: 2
+    - GhostType: 1
+      Time: 3
+    - GhostType: 1
+      Time: 3
+    - GhostType: 1
+      Time: 3
+    - GhostType: 1
+      Time: 4
+    - GhostType: 1
+      Time: 4
+    - GhostType: 1
+      Time: 4
