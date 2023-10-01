@@ -42,15 +42,13 @@ public class EnemiesManager : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        StartWave();
+    }
+
     private void Update()
     {
-        // TEMP
-        if (Input.GetKeyDown(KeyCode.W))
-        {
-            StartWave();
-        }
-        // END TEMP
-
         UpdateWave();
         CheckWaveEnd();
     }
@@ -84,6 +82,7 @@ public class EnemiesManager : MonoBehaviour
         if (_isWaitingForEnd && _ghostsHolder.childCount == 0)
         {
             EndWave();
+            _isWaitingForEnd = false;
         }
     }
 
@@ -94,7 +93,14 @@ public class EnemiesManager : MonoBehaviour
 
     private void EndWave()
     {
-        StartWave();
+        if (_nextWaveIndex < _ghostWaves.Waves.Length)
+        {
+            StartWave();
+        }
+        else
+        {
+            GameManager.Win();
+        }
     }
 
     private IEnumerator StartWaveCoroutine()
