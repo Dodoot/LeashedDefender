@@ -44,6 +44,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be8bd1f08f7e1db47a6c58f927477722, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _spawnInterval: 1
-  _spawnRadius: 8
-  _ghostPrefab: {fileID: 6678040169001371267, guid: 09382f9a997a02e418c09e2a46850ebe, type: 3}
+  _spawnInterval: 2
+  _spawnRadius: 10
+  _ghostPrefabs:
+  - {fileID: 194202488337230622, guid: 44c19b07e172351428ced8f189206624, type: 3}
+  - {fileID: 194202488337230622, guid: 44c19b07e172351428ced8f189206624, type: 3}
+  - {fileID: 6177352131269701974, guid: c958cb7e38054544497458545966139d, type: 3}
+  - {fileID: 6678040169001371267, guid: 09382f9a997a02e418c09e2a46850ebe, type: 3}

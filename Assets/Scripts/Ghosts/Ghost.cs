@@ -42,7 +42,7 @@ public abstract class Ghost : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.layer == LayerMask.NameToLayer("HumanHurtbox"))
+        if (collision.gameObject.layer == LayerMask.NameToLayer("HumanHurtBox"))
         {
             GameManager.Human.Hurt();
             Destroy(gameObject);

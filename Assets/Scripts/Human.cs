@@ -71,6 +71,11 @@ public class Human : MonoBehaviour
             HUDManager.Refresh();
 
             _invincibilityTimer = _invincibilityTime;
+
+            if (_currentLife <= 0)
+            {
+                GameManager.Lose();
+            }
         }
     }
 }

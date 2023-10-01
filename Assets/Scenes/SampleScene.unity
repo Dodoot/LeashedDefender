@@ -340,6 +340,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 71903319821986285, guid: 7d973570d3bf8be43ad4347d3e32ac62, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 71903319821986285, guid: 7d973570d3bf8be43ad4347d3e32ac62, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 954801068568409923, guid: 7d973570d3bf8be43ad4347d3e32ac62, type: 3}
       propertyPath: m_Name
       value: HUDManager
@@ -348,6 +356,18 @@ PrefabInstance:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 633297585}
+    - target: {fileID: 2102650238409303803, guid: 7d973570d3bf8be43ad4347d3e32ac62, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2102650238409303803, guid: 7d973570d3bf8be43ad4347d3e32ac62, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2102650238409303803, guid: 7d973570d3bf8be43ad4347d3e32ac62, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2248564864646544164, guid: 7d973570d3bf8be43ad4347d3e32ac62, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -386,6 +406,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2248564864646544164, guid: 7d973570d3bf8be43ad4347d3e32ac62, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7418903349990288625, guid: 7d973570d3bf8be43ad4347d3e32ac62, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7418903349990288625, guid: 7d973570d3bf8be43ad4347d3e32ac62, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7418903349990288625, guid: 7d973570d3bf8be43ad4347d3e32ac62, type: 3}
+      propertyPath: m_AnchoredPosition.x
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
