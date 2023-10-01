@@ -46,4 +46,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _spawnInterval: 1
   _spawnRadius: 8
-  _ghostPrefab: {fileID: 8474775905923624840, guid: 44c19b07e172351428ced8f189206624, type: 3}
+  _ghostPrefab: {fileID: 1385028289815830233, guid: c958cb7e38054544497458545966139d, type: 3}
