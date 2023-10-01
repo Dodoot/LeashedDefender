@@ -205,7 +205,7 @@ public class Doggo : MonoBehaviour
         {
             drag = 0;
         }
-        else if (_inputMove.magnitude <= _inputDeadZone || _leashTension > _leashTensionBuffer)
+        else if (_inputMove.magnitude <= _inputDeadZone || (_leashTension > _leashTensionBuffer && _rigidBody.velocity.sqrMagnitude > 1f))
         {
             drag = _breakDrag;
         }
@@ -242,7 +242,7 @@ public class Doggo : MonoBehaviour
         {
             _rigidBody.velocity = _rigidBody.velocity.normalized * MaxSpeed;
         }
-        if (_rigidBody.velocity.magnitude < _stopSpeedThreshold)
+        if (_rigidBody.velocity.magnitude < _stopSpeedThreshold && _inputMove.magnitude <= _inputDeadZone)
         {
             _rigidBody.velocity = Vector2.zero;
         }

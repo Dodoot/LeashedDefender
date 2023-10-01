@@ -11,7 +11,7 @@ public struct GhostPrefabInfo
     public Ghost Prefab;
 }
 
-public class EnemiesManager : MonoBehaviour
+public class EnemiesManager : Singleton<EnemiesManager>
 {
     [SerializeField] private float _spawnInterval = 1f;
     [SerializeField] private float _spawnRadius = 15f;
@@ -33,18 +33,15 @@ public class EnemiesManager : MonoBehaviour
 
     private readonly Dictionary<EGhostType, Ghost> _ghostPrefabsDict = new Dictionary<EGhostType, Ghost>();
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
+
         _ghostPrefabsDict.Clear();
         foreach (var ghost in _ghostPrefabs)
         {
             _ghostPrefabsDict[ghost.Type] = ghost.Prefab;
         }
-    }
-
-    private void Start()
-    {
-        StartWave();
     }
 
     private void Update()
@@ -84,6 +81,11 @@ public class EnemiesManager : MonoBehaviour
             EndWave();
             _isWaitingForEnd = false;
         }
+    }
+
+    public static void StartWavePlease()
+    {
+        _instance.StartWave();
     }
 
     private void StartWave()
