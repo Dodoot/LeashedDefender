@@ -90,16 +90,66 @@ MonoBehaviour:
     - GhostType: 0
       Time: 2
     - GhostType: 2
-      Time: 3
+      Time: 4
     - GhostType: 0
-      Time: 3
+      Time: 4
     - GhostType: 0
-      Time: 3
+      Time: 4
+    - GhostType: 2
+      Time: 6
+    - GhostType: 0
+      Time: 6
+    - GhostType: 0
+      Time: 6
+  - Spawns:
+    - GhostType: 2
+      Time: 0
+    - GhostType: 0
+      Time: 0
+    - GhostType: 1
+      Time: 0
+    - GhostType: 2
+      Time: 2
+    - GhostType: 0
+      Time: 2
+    - GhostType: 1
+      Time: 2
     - GhostType: 2
       Time: 4
     - GhostType: 0
       Time: 4
+    - GhostType: 1
+      Time: 4
+    - GhostType: 2
+      Time: 6
     - GhostType: 0
+      Time: 6
+    - GhostType: 1
+      Time: 6
+  - Spawns:
+    - GhostType: 1
+      Time: 0
+    - GhostType: 1
+      Time: 0
+    - GhostType: 1
+      Time: 0
+    - GhostType: 1
+      Time: 2
+    - GhostType: 1
+      Time: 2
+    - GhostType: 1
+      Time: 2
+    - GhostType: 1
+      Time: 3
+    - GhostType: 1
+      Time: 3
+    - GhostType: 1
+      Time: 3
+    - GhostType: 1
+      Time: 4
+    - GhostType: 1
+      Time: 4
+    - GhostType: 1
       Time: 4
   - Spawns:
     - GhostType: 2
@@ -126,28 +176,100 @@ MonoBehaviour:
       Time: 4
     - GhostType: 1
       Time: 4
+    - GhostType: 2
+      Time: 8
+    - GhostType: 0
+      Time: 8
+    - GhostType: 1
+      Time: 8
+    - GhostType: 2
+      Time: 10
+    - GhostType: 0
+      Time: 10
+    - GhostType: 1
+      Time: 10
+    - GhostType: 2
+      Time: 11
+    - GhostType: 0
+      Time: 11
+    - GhostType: 1
+      Time: 11
+    - GhostType: 2
+      Time: 12
+    - GhostType: 0
+      Time: 12
+    - GhostType: 1
+      Time: 12
   - Spawns:
-    - GhostType: 1
+    - GhostType: 2
+      Time: 0
+    - GhostType: 0
       Time: 0
     - GhostType: 1
       Time: 0
-    - GhostType: 1
-      Time: 0
-    - GhostType: 1
+    - GhostType: 2
+      Time: 2
+    - GhostType: 0
       Time: 2
     - GhostType: 1
       Time: 2
-    - GhostType: 1
-      Time: 2
-    - GhostType: 1
+    - GhostType: 2
+      Time: 3
+    - GhostType: 0
       Time: 3
     - GhostType: 1
       Time: 3
-    - GhostType: 1
-      Time: 3
-    - GhostType: 1
+    - GhostType: 2
+      Time: 4
+    - GhostType: 0
       Time: 4
     - GhostType: 1
       Time: 4
     - GhostType: 1
-      Time: 4
+      Time: 5
+    - GhostType: 1
+      Time: 5
+    - GhostType: 1
+      Time: 5
+    - GhostType: 1
+      Time: 6
+    - GhostType: 1
+      Time: 6
+    - GhostType: 1
+      Time: 6
+    - GhostType: 1
+      Time: 7
+    - GhostType: 1
+      Time: 7
+    - GhostType: 1
+      Time: 7
+    - GhostType: 1
+      Time: 8
+    - GhostType: 1
+      Time: 8
+    - GhostType: 1
+      Time: 8
+    - GhostType: 2
+      Time: 8
+    - GhostType: 0
+      Time: 8
+    - GhostType: 1
+      Time: 8
+    - GhostType: 2
+      Time: 10
+    - GhostType: 0
+      Time: 10
+    - GhostType: 1
+      Time: 10
+    - GhostType: 2
+      Time: 11
+    - GhostType: 0
+      Time: 11
+    - GhostType: 1
+      Time: 11
+    - GhostType: 2
+      Time: 12
+    - GhostType: 0
+      Time: 12
+    - GhostType: 1
+      Time: 12
