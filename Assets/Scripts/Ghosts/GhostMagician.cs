@@ -19,7 +19,7 @@ public class GhostMagician : Ghost
 
     protected override void Update()
     {
-        if (_isDead)
+        if (!_isDead)
         {
             CheckDistance();
         
