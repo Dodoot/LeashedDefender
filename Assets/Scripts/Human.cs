@@ -66,6 +66,7 @@ public class Human : MonoBehaviour
         if (_invincibilityTimer <= 0)
         {
             FXManager.TriggerHurtFX();
+            MusicAndSoundManager.PlaySound(ESoundName.Oof);
 
             _currentLife--;
             HUDManager.Refresh();

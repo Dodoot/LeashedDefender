@@ -13,6 +13,7 @@ public class Fireball : MonoBehaviour
     private void Start()
     {
         _rigidBody.velocity = _speed * transform.up;
+        MusicAndSoundManager.PlaySound(ESoundName.Fireball);
     }
 
     private void Update()

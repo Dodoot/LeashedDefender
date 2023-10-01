@@ -335,6 +335,7 @@ MonoBehaviour:
   _rigidBody: {fileID: 1623380294993467519}
   _barkedTime: 0.3
   _barkedSpeed: 5
+  _soundName: 7
   _rotationMaxAngle: 65
   _sinusTime: 1.5
   _maxY: 4.5

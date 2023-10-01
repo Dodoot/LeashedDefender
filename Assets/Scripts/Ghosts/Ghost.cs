@@ -9,6 +9,7 @@ public abstract class Ghost : MonoBehaviour
     [SerializeField] protected Rigidbody2D _rigidBody = null;
     [SerializeField] private float _barkedTime = .3f;
     [SerializeField] protected float _barkedSpeed = 5f;
+    [SerializeField] private ESoundName _soundName = ESoundName.None;
 
     protected float _barkedTimer;
     protected Vector2 _barkedDirection;
@@ -32,6 +33,7 @@ public abstract class Ghost : MonoBehaviour
     public virtual void Die()
     {
         Destroy(gameObject);
+        MusicAndSoundManager.PlaySound(_soundName);
     }
 
     public void Barked(Vector2 direction)

@@ -10,6 +10,7 @@ public struct ChargeLevel
     public float Time;
     public float ScreenShake;
     public Color LeashColor;
+    public float AudioVolume;
 }
 
 public class Doggo : MonoBehaviour
@@ -44,6 +45,11 @@ public class Doggo : MonoBehaviour
     [SerializeField] private Animator _animator = null;
     [SerializeField] private Transform _leashPoint = null;
 
+    [Header("Audio")]
+    [SerializeField] private AudioSource _walkAudio = null;
+    [SerializeField] private float _walkAudioVolume = .5f;
+    [SerializeField] private AudioSource _leashAudio = null;
+
     private Vector2 _previousInputMove;
     private Vector2 _inputMove;
     private float _leashTension;
@@ -61,6 +67,7 @@ public class Doggo : MonoBehaviour
         UpdateInputs();
 
         _animator.SetBool(ANIMATOR_BOOL_WALK, _inputMove.SqrMagnitude() > _inputDeadZone);
+        _walkAudio.volume = _inputMove.SqrMagnitude() > _inputDeadZone && _dashTimer <= 0 ? _walkAudioVolume : 0f;
 
         FaceCorrectDirection();
         Bark();
@@ -159,11 +166,13 @@ public class Doggo : MonoBehaviour
                 _chargeTimer += Time.fixedDeltaTime;
 
                 ScreenShakeManager.SetGlobalShake(GetChargeLevel().ScreenShake);
+                _leashAudio.volume = GetChargeLevel().AudioVolume;
             }
             else
             {
                 _chargeTimer = 0;
                 ScreenShakeManager.SetGlobalShake(0);
+                _leashAudio.volume = 0;
             }
         }
 
@@ -251,10 +260,17 @@ public class Doggo : MonoBehaviour
 
         _chargeTimer = 0;
         ScreenShakeManager.SetGlobalShake(0);
+        _leashAudio.volume = 0;
         ScreenShakeManager.SetTempShake(chargeLevel.ScreenShake * 2, .1f);
         _dashTrigger = false;
 
         _rigidBody.AddForce(leashForce, ForceMode2D.Impulse);
+
+        if (_shouldAttack)
+        {
+            MusicAndSoundManager.PlaySound(ESoundName.Dash);
+        }
+        MusicAndSoundManager.PlaySound(ESoundName.Waf);
     }
 
     public ChargeLevel GetChargeLevel()

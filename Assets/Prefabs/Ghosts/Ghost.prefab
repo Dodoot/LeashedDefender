@@ -250,6 +250,7 @@ MonoBehaviour:
   _rigidBody: {fileID: 1623380294993467519}
   _barkedTime: 0.3
   _barkedSpeed: 5
+  _soundName: 5
 --- !u!50 &1623380294993467519
 Rigidbody2D:
   serializedVersion: 4

@@ -47,7 +47,10 @@ MonoBehaviour:
   _spawnInterval: 2
   _spawnRadius: 10
   _ghostPrefabs:
-  - {fileID: 194202488337230622, guid: 44c19b07e172351428ced8f189206624, type: 3}
-  - {fileID: 194202488337230622, guid: 44c19b07e172351428ced8f189206624, type: 3}
-  - {fileID: 6177352131269701974, guid: c958cb7e38054544497458545966139d, type: 3}
-  - {fileID: 6678040169001371267, guid: 09382f9a997a02e418c09e2a46850ebe, type: 3}
+  - Type: 0
+    Prefab: {fileID: 194202488337230622, guid: 44c19b07e172351428ced8f189206624, type: 3}
+  - Type: 1
+    Prefab: {fileID: 6177352131269701974, guid: c958cb7e38054544497458545966139d, type: 3}
+  - Type: 2
+    Prefab: {fileID: 6678040169001371267, guid: 09382f9a997a02e418c09e2a46850ebe, type: 3}
+  _ghostWaves: {fileID: 11400000, guid: 7f09088b649f7fa4dbfd6e14f66fc71e, type: 2}

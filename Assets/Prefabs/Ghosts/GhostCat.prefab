@@ -236,6 +236,7 @@ MonoBehaviour:
   _rigidBody: {fileID: 1623380294993467519}
   _barkedTime: 0.3
   _barkedSpeed: 5
+  _soundName: 6
   _rotationAngle: 75
 --- !u!50 &1623380294993467519
 Rigidbody2D:
