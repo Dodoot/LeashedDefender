@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _waves:
   - Spawns:
-    - GhostType: 0
+    - GhostType: 2
       Time: 0
-    - GhostType: 0
+    - GhostType: 2
       Time: 1
     - GhostType: 0
       Time: 2

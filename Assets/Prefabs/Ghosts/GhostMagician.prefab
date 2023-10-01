@@ -199,6 +199,7 @@ Transform:
   - {fileID: 2377932569908024539}
   - {fileID: 7453178958165303404}
   - {fileID: 8701203325926771800}
+  - {fileID: 2443781821094597567}
   m_Father: {fileID: 4488020254750504104}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5816592007797958542
@@ -296,6 +297,7 @@ GameObject:
   - component: {fileID: 4488020254750504104}
   - component: {fileID: 6678040169001371267}
   - component: {fileID: 1623380294993467519}
+  - component: {fileID: 6063168783061046092}
   m_Layer: 0
   m_Name: GhostMagician
   m_TagString: Untagged
@@ -336,6 +338,7 @@ MonoBehaviour:
   _barkedTime: 0.3
   _barkedSpeed: 5
   _soundName: 7
+  _animator: {fileID: 6063168783061046092}
   _rotationMaxAngle: 65
   _sinusTime: 1.5
   _maxY: 4.5
@@ -343,6 +346,7 @@ MonoBehaviour:
   _maxDistance: 6
   _attackCooldown: 3
   _projectilePrefab: {fileID: 1112977923998427206, guid: 306dee9a060423e46acd8d4eeb0db747, type: 3}
+  _projectileSpawnPoint: {fileID: 2443781821094597567}
 --- !u!50 &1623380294993467519
 Rigidbody2D:
   serializedVersion: 4
@@ -370,6 +374,27 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!95 &6063168783061046092
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5824298844750135720}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 640532308808c2a4298f52129df6720a, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &6149601047833974654
 GameObject:
   m_ObjectHideFlags: 0
@@ -451,6 +476,37 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _ghost: {fileID: 6678040169001371267}
+--- !u!1 &8213025753774832600
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2443781821094597567}
+  m_Layer: 0
+  m_Name: FireballSpawnPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 7174288486110832750, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2443781821094597567
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8213025753774832600}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.525, y: 0.155, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8419516701255559024}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8955322815119720967
 GameObject:
   m_ObjectHideFlags: 0

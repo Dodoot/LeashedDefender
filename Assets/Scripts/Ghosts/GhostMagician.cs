@@ -11,6 +11,7 @@ public class GhostMagician : Ghost
     [SerializeField] private float _attackCooldown = 3f;
 
     [SerializeField] private GameObject _projectilePrefab = null;
+    [SerializeField] private Transform _projectileSpawnPoint = null;
 
     private float _angleTimer;
     private bool _isAttacking;
@@ -18,25 +19,28 @@ public class GhostMagician : Ghost
 
     protected override void Update()
     {
-        CheckDistance();
+        if (_isDead)
+        {
+            CheckDistance();
         
-        if (_barkedTimer > 0)
-        {
-            _barkedTimer -= Time.deltaTime;
-
-            _rigidBody.velocity = _barkedDirection * _barkedSpeed;
-        }
-        else
-        {
-            if (!_isAttacking)
+            if (_barkedTimer > 0)
             {
-                Move();
-                FaceCorrectDirection();
+                _barkedTimer -= Time.deltaTime;
+
+                _rigidBody.velocity = _barkedDirection * _barkedSpeed;
             }
             else
             {
-                _rigidBody.velocity = Vector2.zero;
-                UpdateAttack();
+                if (!_isAttacking)
+                {
+                    Move();
+                    FaceCorrectDirection();
+                }
+                else
+                {
+                    _rigidBody.velocity = Vector2.zero;
+                    UpdateAttack();
+                }
             }
         }
     }
@@ -52,6 +56,7 @@ public class GhostMagician : Ghost
         }
         if (_isAttacking && (GameManager.Human.transform.position - transform.position).magnitude > _maxDistance)
         {
+            _animator.SetTrigger("StopAttack");
             _isAttacking = false;
         }
     }
@@ -73,7 +78,7 @@ public class GhostMagician : Ghost
 
         if (_attackTimer <= 0)
         {
-            ThrowFireball();
+            _animator.SetTrigger("Attack");
 
             _attackTimer = _attackCooldown;
         }
@@ -81,7 +86,7 @@ public class GhostMagician : Ghost
 
     public void ThrowFireball()
     {
-        var fireball = Instantiate(_projectilePrefab, transform.position, Quaternion.identity);
+        var fireball = Instantiate(_projectilePrefab, _projectileSpawnPoint.position, Quaternion.identity);
         fireball.transform.up = (GameManager.Human.transform.position - transform.position).normalized;
     }
 }

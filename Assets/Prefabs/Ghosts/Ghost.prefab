@@ -211,6 +211,7 @@ GameObject:
   - component: {fileID: 4488020254750504104}
   - component: {fileID: 194202488337230622}
   - component: {fileID: 1623380294993467519}
+  - component: {fileID: 7185485214063746480}
   m_Layer: 0
   m_Name: Ghost
   m_TagString: Untagged
@@ -251,6 +252,7 @@ MonoBehaviour:
   _barkedTime: 0.3
   _barkedSpeed: 5
   _soundName: 5
+  _animator: {fileID: 7185485214063746480}
 --- !u!50 &1623380294993467519
 Rigidbody2D:
   serializedVersion: 4
@@ -278,6 +280,27 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!95 &7185485214063746480
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5824298844750135720}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 22e8bef5eb96af24cbdc07674a16c5f7, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &6149601047833974654
 GameObject:
   m_ObjectHideFlags: 0

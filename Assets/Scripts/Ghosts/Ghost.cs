@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class Ghost : MonoBehaviour
@@ -10,22 +7,27 @@ public abstract class Ghost : MonoBehaviour
     [SerializeField] private float _barkedTime = .3f;
     [SerializeField] protected float _barkedSpeed = 5f;
     [SerializeField] private ESoundName _soundName = ESoundName.None;
+    [SerializeField] protected Animator _animator = null;
 
     protected float _barkedTimer;
     protected Vector2 _barkedDirection;
+    protected bool _isDead;
 
     protected virtual void Update()
     {
-        if (_barkedTimer > 0)
+        if (!_isDead)
         {
-            _barkedTimer -= Time.deltaTime;
+            if (_barkedTimer > 0)
+            {
+                _barkedTimer -= Time.deltaTime;
 
-            _rigidBody.velocity = _barkedDirection * _barkedSpeed;
-        }
-        else
-        {
-            Move();
-            FaceCorrectDirection();
+                _rigidBody.velocity = _barkedDirection * _barkedSpeed;
+            }
+            else
+            {
+                Move();
+                FaceCorrectDirection();
+            }
         }
     }
 
@@ -35,14 +37,19 @@ public abstract class Ghost : MonoBehaviour
     {
         if (_rigidBody.velocity.SqrMagnitude() > 0)
         {
-            transform.localScale = new Vector3(_rigidBody.velocity.x < 0 ? 1f : -1f, 1f, 1f);
+            transform.localScale = new Vector3(_rigidBody.velocity.x > 0 ? 1f : -1f, 1f, 1f);
         }
     }
 
     public virtual void Die()
     {
-        Destroy(gameObject);
-        MusicAndSoundManager.PlaySound(_soundName);
+        if (!_isDead)
+        {
+            _isDead = true;
+            _rigidBody.velocity = Vector2.zero;
+            _animator.SetTrigger("Die");
+            MusicAndSoundManager.PlaySound(_soundName);
+        }
     }
 
     public void Barked(Vector2 direction)
@@ -53,10 +60,18 @@ public abstract class Ghost : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.layer == LayerMask.NameToLayer("HumanHurtBox"))
+        if (!_isDead)
         {
-            GameManager.Human.Hurt();
-            Destroy(gameObject);
+            if (collision.gameObject.layer == LayerMask.NameToLayer("HumanHurtBox"))
+            {
+                GameManager.Human.Hurt();
+                Destroy(gameObject);
+            }
         }
+    }
+
+    public void AnimatorCallDestroy()
+    {
+        Destroy(gameObject);
     }
 }
