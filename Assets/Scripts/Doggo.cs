@@ -16,6 +16,7 @@ public class Doggo : MonoBehaviour
 {
     private const string ANIMATOR_TRIGGER_BARK = "Bark";
     private const string ANIMATOR_BOOL_DASH = "Dash";
+    private const string ANIMATOR_BOOL_WALK = "Walk";
 
     [Header("Fences")]
     [SerializeField] private float _fenceX = 7.2f;
@@ -58,6 +59,9 @@ public class Doggo : MonoBehaviour
     void Update()
     {
         UpdateInputs();
+
+        _animator.SetBool(ANIMATOR_BOOL_WALK, _inputMove.SqrMagnitude() > _inputDeadZone);
+
         FaceCorrectDirection();
         Bark();
     }
@@ -75,83 +79,8 @@ public class Doggo : MonoBehaviour
         MoveHuman();
     }
 
-    private void ClampPosition()
-    {
-        if (Mathf.Abs(transform.position.x) > _fenceX || Mathf.Abs(transform.position.y) > _fenceY)
-        {
-            var newPos = new Vector2(Mathf.Clamp(transform.position.x, -_fenceX, _fenceX), Mathf.Clamp(transform.position.y, -_fenceY, _fenceY));
-            transform.position = newPos;
-        }
-    }
 
-    private void FaceCorrectDirection()
-    {
-        if (_dashTimer > 0 && _shouldAttack)
-        {
-            transform.localScale = new Vector3(_rigidBody.velocity.x < 0 ? 1f : -1f, 1f, 1f);
-        }
-
-        if(_inputMove.SqrMagnitude() > _inputDeadZone)
-        {
-            transform.localScale = new Vector3(_inputMove.x < 0 ? 1f : -1f, 1f, 1f);
-        }
-    }
-
-    private void UpdateDash()
-    {
-        if (_dashTimer > 0)
-        {
-            _dashTimer -= Time.fixedDeltaTime;
-        }
-        else if (_inputMove.SqrMagnitude() > _inputDeadZone)
-        {
-            if (_leashTension > 0)
-            {
-                _chargeTimer += Time.fixedDeltaTime;
-
-                ScreenShakeManager.SetGlobalShake(GetChargeLevel().ScreenShake);
-            }
-            else
-            {
-                _chargeTimer = 0;
-                ScreenShakeManager.SetGlobalShake(0);
-            }
-        }
-
-        _animator.SetBool(ANIMATOR_BOOL_DASH, _dashTimer > 0 && _shouldAttack);
-    }
-
-    private void ClampSpeed()
-    {
-        if (_rigidBody.velocity.magnitude > MaxSpeed)
-        {
-            _rigidBody.velocity = _rigidBody.velocity.normalized * MaxSpeed;
-        }
-        if (_rigidBody.velocity.magnitude < _stopSpeedThreshold)
-        {
-            _rigidBody.velocity = Vector2.zero;
-        }
-    }
-
-    private void UpdateTension()
-    {
-        _leashTension = (transform.position - GameManager.Human.transform.position).sqrMagnitude - _leashRadius * _leashRadius;
-    }
-
-    private void MoveHuman()
-    {
-        GameManager.Human.Move(_leashTension);
-    }
-
-    private void Bark()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            _animator.SetTrigger(ANIMATOR_TRIGGER_BARK);
-        }
-    }
-
-    #region Inputs
+    #region Update
 
     private void UpdateInputs()
     {
@@ -186,9 +115,60 @@ public class Doggo : MonoBehaviour
         }
     }
 
+    private void FaceCorrectDirection()
+    {
+        if (_dashTimer > 0 && _shouldAttack)
+        {
+            transform.localScale = new Vector3(_rigidBody.velocity.x < 0 ? 1f : -1f, 1f, 1f);
+        }
+
+        if (_inputMove.SqrMagnitude() > _inputDeadZone)
+        {
+            transform.localScale = new Vector3(_inputMove.x < 0 ? 1f : -1f, 1f, 1f);
+        }
+    }
+
+    private void Bark()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            _animator.SetTrigger(ANIMATOR_TRIGGER_BARK);
+        }
+    }
+
     #endregion
 
-    #region Movement
+    #region Fixed Update
+
+    private void UpdateTension()
+    {
+        _leashTension = (transform.position - GameManager.Human.transform.position).sqrMagnitude - _leashRadius * _leashRadius;
+    }
+
+    private void UpdateDash()
+    {
+        if (_dashTimer > 0)
+        {
+            _dashTimer -= Time.fixedDeltaTime;
+        }
+        else if (_inputMove.SqrMagnitude() > _inputDeadZone)
+        {
+            if (_leashTension > 0)
+            {
+                _chargeTimer += Time.fixedDeltaTime;
+
+                ScreenShakeManager.SetGlobalShake(GetChargeLevel().ScreenShake);
+            }
+            else
+            {
+                _chargeTimer = 0;
+                ScreenShakeManager.SetGlobalShake(0);
+            }
+        }
+
+        _animator.SetBool(ANIMATOR_BOOL_DASH, _dashTimer > 0 && _shouldAttack);
+    }
+
     private void UpdateDrag()
     {
         float drag;
@@ -226,6 +206,32 @@ public class Doggo : MonoBehaviour
                 _rigidBody.AddForce(leashForce);
             }
         }
+    }
+
+    private void ClampSpeed()
+    {
+        if (_rigidBody.velocity.magnitude > MaxSpeed)
+        {
+            _rigidBody.velocity = _rigidBody.velocity.normalized * MaxSpeed;
+        }
+        if (_rigidBody.velocity.magnitude < _stopSpeedThreshold)
+        {
+            _rigidBody.velocity = Vector2.zero;
+        }
+    }
+
+    private void ClampPosition()
+    {
+        if (Mathf.Abs(transform.position.x) > _fenceX || Mathf.Abs(transform.position.y) > _fenceY)
+        {
+            var newPos = new Vector2(Mathf.Clamp(transform.position.x, -_fenceX, _fenceX), Mathf.Clamp(transform.position.y, -_fenceY, _fenceY));
+            transform.position = newPos;
+        }
+    }
+
+    private void MoveHuman()
+    {
+        GameManager.Human.Move(_leashTension);
     }
 
     #endregion
