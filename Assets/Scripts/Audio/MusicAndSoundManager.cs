@@ -4,16 +4,16 @@ using UnityEngine;
 
 public class MusicAndSoundManager : Singleton<MusicAndSoundManager>
 {
-    [SerializeField] float _minRandomPitch = .9f;
-    [SerializeField] float _maxRandomPitch = 1.1f;
-    [SerializeField] Sound[] _soundsArray = null;
+    [SerializeField] private float _minRandomPitch = .9f;
+    [SerializeField] private float _maxRandomPitch = 1.1f;
+    [SerializeField] private Sound[] _soundsArray = null;
 
-    [SerializeField] SoundAudioSource _soundAudioSourcePrefab = null;
+    [SerializeField] private AudioSource _musicAudioSource = null;
+    [SerializeField] private SoundAudioSource _soundAudioSourcePrefab = null;
 
     private readonly Dictionary<ESoundName, List<Sound>> _soundsDict = new Dictionary<ESoundName, List<Sound>>();
     private readonly List<SoundAudioSource> _soundAudioSources = new List<SoundAudioSource>();
 
-    private AudioSource _musicAudioSource = null;
     private float _initialMusicVolume;
 
 
@@ -26,7 +26,6 @@ public class MusicAndSoundManager : Singleton<MusicAndSoundManager>
 
     private void Initialize()
     {
-        _musicAudioSource = GetComponent<AudioSource>();
         _initialMusicVolume = _musicAudioSource.volume;
 
         AdjustMusicVolume();

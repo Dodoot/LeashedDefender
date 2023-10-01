@@ -4,44 +4,13 @@ public enum ESoundName
 {
     None,
 
-    HeroAttackMagical,
-    HeroAttackPhysical,
-    HeroAttackThrow,
-    HeroChangeDirection,
-    HeroJumpStart,
-    HeroJumpEnd,
-    HeroDash,
-    HeroOuch,
-    HeroRoll,
-
-    EnemyVoiceRegular,
-    EnemyVoiceTiny,
-    EnemyVoiceBoss,
-    EnemyAttackPrepare,
-    EnemyAttack,
-    EnemyPoofSmall,
-    EnemyPoofBig,
-
-    HitPaf,
-    HitLightning,
-    HitFire,
-    HitSlash,
-
-    CardChangeSelection,
-    ClicChangeSelection,
-
-    MenuClic,
-    WaveStart,
-    WaveEnd,
-
-    Guitar,
-    
-    HeroAttackThrowSmall,
-    EnemyVoicSmall,
-    EnemyVoiceBig,
-    OpenChest,
-
-    BossVoice,
+    Waf,
+    Dash,
+    Oof,
+    Fireball,
+    Boo1,
+    Boo2,
+    Boo3
 }
 
 [CreateAssetMenu(menuName = "Sound")]

@@ -133,6 +133,7 @@ public class Doggo : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
         {
             _animator.SetTrigger(ANIMATOR_TRIGGER_BARK);
+            MusicAndSoundManager.PlaySound(ESoundName.Waf);
         }
     }
 
