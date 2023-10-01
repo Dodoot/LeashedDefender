@@ -38,6 +38,7 @@ public class Doggo : MonoBehaviour
     [SerializeField] private float _inputDeadZone = .1f;
     [SerializeField] private float _breakDrag = 10f;
     [SerializeField] private float _defaultDrag = 3f;
+    [SerializeField] private float _leashTensionBuffer = 1f;
     [SerializeField] private float _stopSpeedThreshold = 1f;
 
     [Header("Inner References")]
@@ -187,7 +188,7 @@ public class Doggo : MonoBehaviour
         {
             drag = 0;
         }
-        else if (_inputMove.magnitude <= _inputDeadZone || _leashTension > 0)
+        else if (_inputMove.magnitude <= _inputDeadZone || _leashTension > _leashTensionBuffer)
         {
             drag = _breakDrag;
         }

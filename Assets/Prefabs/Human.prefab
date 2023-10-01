@@ -50,8 +50,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _startLife: 3
   _invincibilityTime: 1
-  leashTensionThreshold: 0.5
-  leashMoveForceSpeedMultiplier: 0.1
+  _leashTensionThreshold: 1
+  _leashMoveForceSpeedMultiplier: 2
   _rigidBody: {fileID: 3762720713818024715}
   _animator: {fileID: 2591112198874399306}
   _leashPoint: {fileID: 363971189467554775}

@@ -1085,7 +1085,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _fenceX: 7.2
   _fenceY: 4.7
-  _leashRadius: 3
+  _leashRadius: 2.5
   _leashForceMultiplier: 5
   _chargeLevels:
   - Threshold: 0
@@ -1112,10 +1112,11 @@ MonoBehaviour:
   _dashMaxSpeed: 30
   _dashObject: {fileID: 6374368768123676251}
   _moveForce: 60
-  _defaultMaxSpeed: 5
+  _defaultMaxSpeed: 7
   _inputDeadZone: 0.1
   _breakDrag: 10
   _defaultDrag: 3
+  _leashTensionBuffer: 1
   _stopSpeedThreshold: 1
   _rigidBody: {fileID: 5760488770234230730}
   _animator: {fileID: 5713743846470570977}
