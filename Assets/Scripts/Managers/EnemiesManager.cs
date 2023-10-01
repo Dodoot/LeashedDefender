@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
+using System.Collections;
 
 [Serializable]
 public struct GhostPrefabInfo
@@ -15,6 +17,11 @@ public class EnemiesManager : MonoBehaviour
     [SerializeField] private float _spawnRadius = 15f;
     [SerializeField] private GhostPrefabInfo[] _ghostPrefabs = null;
     [SerializeField] private GhostWaves _ghostWaves;
+    [SerializeField] private Transform _ghostsHolder;
+
+    [Header("UI")]
+    [SerializeField] private Animator _animator;
+    [SerializeField] private TMP_Text _waveText;
 
     private float _timer;
     private int _nextWaveIndex;
@@ -22,6 +29,7 @@ public class EnemiesManager : MonoBehaviour
     private GhostWave _currentWave;
 
     private bool _isInWave;
+    private bool _isWaitingForEnd;
 
     private readonly Dictionary<EGhostType, Ghost> _ghostPrefabsDict = new Dictionary<EGhostType, Ghost>();
 
@@ -44,6 +52,7 @@ public class EnemiesManager : MonoBehaviour
         // END TEMP
 
         UpdateWave();
+        CheckWaveEnd();
     }
 
     private void UpdateWave()
@@ -57,22 +66,49 @@ public class EnemiesManager : MonoBehaviour
                 var ghost = _ghostPrefabsDict[_currentWave.Spawns[_nextGhostIndex].GhostType];
                 var spawnPosition = UnityEngine.Random.insideUnitCircle.normalized * _spawnRadius;
 
-                Instantiate(ghost, spawnPosition, Quaternion.identity);
+                var instance = Instantiate(ghost, spawnPosition, Quaternion.identity);
+                instance.transform.SetParent(_ghostsHolder);
 
                 _nextGhostIndex++;
+
+                if (_nextGhostIndex < _currentWave.Spawns.Length)
+                {
+                    _isWaitingForEnd = true;
+                }
             }
+        }
+    }
+
+    private void CheckWaveEnd()
+    {
+        if (_isWaitingForEnd && _ghostsHolder.childCount == 0)
+        {
+            EndWave();
         }
     }
 
     private void StartWave()
     {
+        StartCoroutine(StartWaveCoroutine());
+    }
+
+    private void EndWave()
+    {
+        StartWave();
+    }
+
+    private IEnumerator StartWaveCoroutine()
+    {
+        _animator.SetTrigger("WaveStart");
+        _waveText.text = $"Wave {_nextWaveIndex + 1}";
+
+        yield return new WaitForSeconds(1f);
+
         _currentWave = _ghostWaves.Waves[_nextWaveIndex];
         _timer = 0;
         _nextGhostIndex = 0;
         _isInWave = true;
 
         _nextWaveIndex++;
-
-        Debug.Log("Wave Started");
     }
 }
