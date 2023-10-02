@@ -11,7 +11,7 @@ public class TutorialManager : MonoBehaviour
     {
         if (!_gameStarted)
         {
-            if (Input.GetKeyDown(KeyCode.Space))
+            if (Input.GetKeyDown(KeyCode.Space) || Input.GetButtonDown("Fire1"))
             {
                 _animator.SetBool("No", true);
                 _gameStarted = true;
@@ -20,13 +20,13 @@ public class TutorialManager : MonoBehaviour
         }
         else
         {
-            if (!_isPaused && Input.GetKeyDown(KeyCode.Escape))
+            if (!_isPaused && Input.GetKeyDown(KeyCode.Escape) || Input.GetButtonDown("Fire2"))
             {
                 _animator.SetBool("No", false);
                 _isPaused = true;
                 TimeManager.StopTime();
             }
-            else if (_isPaused && (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.Space)))
+            else if (_isPaused && (Input.GetKeyDown(KeyCode.Escape) || Input.GetButtonDown("Fire2") || Input.GetKeyDown(KeyCode.Space) || Input.GetButtonDown("Fire1")))
             {
                 _animator.SetBool("No", true);
                 _isPaused = false;

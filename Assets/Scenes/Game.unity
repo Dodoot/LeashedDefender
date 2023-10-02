@@ -509,12 +509,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 1080, y: 720}
   m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 0
+  m_MatchWidthOrHeight: 1
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
@@ -529,7 +529,7 @@ Canvas:
   m_GameObject: {fileID: 806869032}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 1
+  m_RenderMode: 0
   m_Camera: {fileID: 633297585}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
@@ -1083,33 +1083,9 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 71903319821986285, guid: 7d973570d3bf8be43ad4347d3e32ac62, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 71903319821986285, guid: 7d973570d3bf8be43ad4347d3e32ac62, type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 954801068568409923, guid: 7d973570d3bf8be43ad4347d3e32ac62, type: 3}
       propertyPath: m_Name
       value: HUDManager
-      objectReference: {fileID: 0}
-    - target: {fileID: 1719882214750127404, guid: 7d973570d3bf8be43ad4347d3e32ac62, type: 3}
-      propertyPath: m_Camera
-      value: 
-      objectReference: {fileID: 633297585}
-    - target: {fileID: 2102650238409303803, guid: 7d973570d3bf8be43ad4347d3e32ac62, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2102650238409303803, guid: 7d973570d3bf8be43ad4347d3e32ac62, type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2102650238409303803, guid: 7d973570d3bf8be43ad4347d3e32ac62, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2248564864646544164, guid: 7d973570d3bf8be43ad4347d3e32ac62, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1149,18 +1125,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2248564864646544164, guid: 7d973570d3bf8be43ad4347d3e32ac62, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7418903349990288625, guid: 7d973570d3bf8be43ad4347d3e32ac62, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7418903349990288625, guid: 7d973570d3bf8be43ad4347d3e32ac62, type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7418903349990288625, guid: 7d973570d3bf8be43ad4347d3e32ac62, type: 3}
-      propertyPath: m_AnchoredPosition.x
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

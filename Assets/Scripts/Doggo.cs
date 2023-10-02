@@ -100,28 +100,35 @@ public class Doggo : MonoBehaviour
     {
         _previousInputMove = _inputMove;
 
-        _inputMove = Vector2.zero;
+        if (Mathf.Abs(Input.GetAxisRaw("Horizontal")) > _inputDeadZone || Mathf.Abs(Input.GetAxisRaw("Vertical")) > _inputDeadZone)
+        {
+            _inputMove += Vector2.up * Input.GetAxisRaw("Vertical");
+            _inputMove += Vector2.right * Input.GetAxisRaw("Horizontal");
+        }
+        else
+        {
+            _inputMove = Vector2.zero;
 
-        if (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W))
-        {
-            _inputMove += Vector2.up;
-        }
-        else if (Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S))
-        {
-            _inputMove += Vector2.down;
-        }
+            if (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W))
+            {
+                _inputMove += Vector2.up;
+            }
+            else if (Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S))
+            {
+                _inputMove += Vector2.down;
+            }
 
-        if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))
-        {
-            _inputMove += Vector2.left;
-        }
-        else if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D))
-        {
-            _inputMove += Vector2.right;
+            if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))
+            {
+                _inputMove += Vector2.left;
+            }
+            else if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D))
+            {
+                _inputMove += Vector2.right;
+            }
         }
 
         _inputMove = Vector2.ClampMagnitude(_inputMove, 1f);
-
 
         if (_previousInputMove.sqrMagnitude > 0 && _inputMove.magnitude <= _inputDeadZone && _leashTension > 0)
         {
@@ -144,7 +151,7 @@ public class Doggo : MonoBehaviour
 
     private void Bark()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && _barkTimer <= .3f)
+        if ((Input.GetKeyDown(KeyCode.Space) || Input.GetButtonDown("Fire1")) && _barkTimer <= .3f)
         {
             _barkBuffer = true;
         }
